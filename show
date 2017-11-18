@@ -1,0 +1,109 @@
+#include <windows.h>
+#include <iostream>
+#include <cstdlib>
+
+void showBox(int ***Boxes, int numOfBoxes, const int BOXlength, const int BOXwidth);
+void bag(int ***Boxes, struct Item *items, int amountOfItems);
+void changeColor(int numberOfItems);
+
+using namespace std;
+
+struct Coordinates{
+    int x;
+    int y;
+    bool rotation;
+    int boxNum;
+};
+
+struct Item{
+    int number;
+    int length;
+    int width;
+    Coordinates cor;
+};
+
+
+
+int main()
+{
+    int numOfBoxes = 2;
+    const int BOXlength = 12;
+    const int BOXwidth = 6;
+    int *** Boxes = new int **[numOfBoxes];
+
+    for(int k=0; k<numOfBoxes; k++){
+        Boxes[k] = new int *[BOXwidth];
+        for(int i=0; i<BOXwidth; i++){
+            Boxes[k][i] = new int [BOXlength];
+            for(int j=0; j<BOXlength; j++)
+                Boxes[k][i][j] = 0;
+        }
+    }
+
+    Item items[1];
+    int order[4] = {1, 2, 3, 4};
+
+    items[0] = {1,4,2,{1,2,0,1}};
+    //items[1] = {2,3,3,{3,0,0,1}};
+    //items[2] = {3,3,6,{0,3,0,1}};
+    //items[3] = {4,8,4,{2,10,0,1}};
+    //*Item items[9] = {{1, 4, 2, {0, 0, 0, 0}}, {2, 3, 3, {0, 0, 0, 0}}, {3, 5, 3, {0, 0, 0, 0}}, {4, 9, 1, {0, 0, 0, 0}}, {5, 5, 2, {0, 0, 0, 0}}, {6, 8, 2, {0, 0, 0, 0}},
+	//				 {7, 4, 1, {0, 0, 0, 0}}, {8, 5, 3, {0, 0, 0, 0}}, {9, 7, 2, {0, 0, 0, 0}}};
+
+    int amountOfItems = sizeof(items)/sizeof(items[0]);
+
+    bag(Boxes, items, amountOfItems);
+    showBox(Boxes, numOfBoxes, BOXlength, BOXwidth);
+
+    return 0;
+}
+
+void showBox(int ***Boxes, int numOfBoxes, const int BOXlength, const int BOXwidth){
+    for(int k=0; k<numOfBoxes; k++){
+        for(int i=0; i<BOXwidth; i++){
+            for(int j=0; j<BOXlength; j++){
+                changeColor(Boxes[k][i][j]);
+                cout.width(2);
+                cout<<Boxes[k][i][j];
+            }
+            cout<<endl;
+        }
+        cout<<endl<<endl;
+    }
+}
+
+void bag(int ***Boxes, struct Item *items, int amountOfItems){
+    for(int k=0; k<amountOfItems; k++){
+        for(int i=0; i<items[k].width; i++)
+            for(int j=0; j<items[k].length; j++)
+                if(items[k].cor.rotation == 0)
+                    Boxes[items[k].cor.boxNum-1][i+items[k].cor.x][j+items[k].cor.y] = items[k].number;
+                else
+                    Boxes[items[k].cor.boxNum-1][j+items[k].cor.x][i+items[k].cor.y] = items[k].number;
+    }
+}
+
+void changeColor(int numberOfItems){
+    HANDLE hOut;
+    hOut = GetStdHandle( STD_OUTPUT_HANDLE );
+    if (numberOfItems == 0)
+        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+    else
+    switch (numberOfItems%6)
+    {
+        case 0: SetConsoleTextAttribute( hOut, FOREGROUND_RED );
+                break;
+        case 1: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE );
+                break;
+        case 2: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
+                break;
+        case 3: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED);
+                break;
+        case 4: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE);
+                break;
+        case 5: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_RED);
+                break;
+        default: SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+                break;
+    }
+}
