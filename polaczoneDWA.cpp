@@ -27,9 +27,10 @@ struct Item{
 	Coordinates cor;
 };
 
-        void showBox(int ***Boxes, int numOfBoxes);
-        void bag(int ***Boxes, struct Item *items, int amountOfItems);
-        void changeColor(int numberOfItems);
+void showBox(int ***Boxes, int numOfBoxes);
+void showResult(struct Item *items);
+void bag(int ***Boxes, struct Item *items, int amountOfItems);
+void changeColor(int numberOfItems);
 
 int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * ord);
 int objectiveFunction(int numOfBoxs, int EmptySp);	//cost ==> minimum
@@ -46,29 +47,19 @@ int main()
 {
 	Item items[QUANTITY] = {{1, 4, 2, {0, 0, 0, 0}}, {2, 3, 3, {0, 0, 0, 0}}, {3, 5, 3, {0, 0, 0, 0}}, {4, 9, 1, {0, 0, 0, 0}}, {5, 5, 2, {0, 0, 0, 0}}, {6, 8, 2, {0, 0, 0, 0}},
 					 {7, 4, 1, {0, 0, 0, 0}}, {8, 5, 3, {0, 0, 0, 0}}, {9, 7, 2, {0, 0, 0, 0}}};
-    //Item items[QUANTITY] = {1,4,2,{3,1,0,1}};
 	int Order[QUANTITY] = {0};
 
-            int amountOfItems = sizeof(items)/sizeof(items[0]);
-            //const int BOXlength = 10;
-            //const int BOXwidth = 10;
+    int amountOfItems = sizeof(items)/sizeof(items[0]);
 	int *** Boxes;
 	int EmptySpace;
 	int numOfBoxes;
 
 	Boxes = simAnnealingAlgorithm(items, &numOfBoxes, Order);
 	EmptySpace = findEmptySpace(Boxes[numOfBoxes-1]);
-	cout << endl << "EmptySpace: " << EmptySpace << endl << endl;
-	for(int i = 0; i < QUANTITY; i++)
-	{
-		cout << "Item " << items[i].number << endl;
-		cout << "length: " << items[i].length << ", width: " << items[i].width << endl;
-		cout << "x: " << items[i].cor.x << ", y: " << items[i].cor.y << endl;
-		cout << "rotation: " << items[i].cor.rotation << endl;
-		cout << "boxNum: " << items[i].cor.boxNum << endl << endl;
-	}
-            //bag(Boxes, items, amountOfItems);
-            showBox(Boxes, numOfBoxes);
+	cout<<endl<<"EmptySpace: "<<EmptySpace<<endl<<endl;
+    //bag(Boxes, items, amountOfItems);
+    showBox(Boxes, numOfBoxes);
+    showResult(items);
     return 0;
 }
 
@@ -337,53 +328,69 @@ int max(int a, int b)
 }
 
 
-        void showBox(int ***Boxes, int numOfBoxes){
-            for(int k=0; k<numOfBoxes; k++){
-                for(int i=0; i<BOXwidth; i++){
-                    for(int j=0; j<BOXlength; j++){
-                        changeColor(Boxes[k][i][j]);
-                        cout.width(2);
-                        cout<<Boxes[k][i][j];
-                    }
-                    cout<<endl;
-                }
-                cout<<endl<<endl;
+void showBox(int ***Boxes, int numOfBoxes){
+    for(int k=0; k<numOfBoxes; k++){
+        for(int i=0; i<BOXwidth; i++){
+            for(int j=0; j<BOXlength; j++){
+                changeColor(Boxes[k][i][j]);
+                cout.width(2);
+                cout<<Boxes[k][i][j];
             }
+            cout<<endl;
         }
+        cout<<endl<<endl;
+    }
+}
 
-        void bag(int ***Boxes, struct Item *items, int amountOfItems){
-            for(int k=0; k<amountOfItems; k++){
+void bag(int ***Boxes, struct Item *items, int amountOfItems){
+    for(int k=0; k<amountOfItems; k++){
+        for(int i=0; i<items[k].width; i++)
+            for(int j=0; j<items[k].length; j++)
+                if(items[k].cor.rotation == 0)
+                    Boxes[items[k].cor.boxNum-1][i+items[k].cor.x][j+items[k].cor.y] = items[k].number;
+                else
+                    Boxes[items[k].cor.boxNum-1][j+items[k].cor.x][i+items[k].cor.y] = items[k].number;
+    }
+}
 
-                for(int i=0; i<items[k].width; i++)
-                    for(int j=0; j<items[k].length; j++)
-                        if(items[k].cor.rotation == 0)
-                            Boxes[items[k].cor.boxNum-1][i+items[k].cor.x][j+items[k].cor.y] = items[k].number;
-                        else
-                            Boxes[items[k].cor.boxNum-1][j+items[k].cor.x][i+items[k].cor.y] = items[k].number;
-            }
-        }
+void changeColor(int numberOfItems){
+    HANDLE hOut;
+    hOut = GetStdHandle( STD_OUTPUT_HANDLE );
+    if (numberOfItems == 0)
+        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+    else
+    switch (numberOfItems%6)
+    {
+        case 0: SetConsoleTextAttribute( hOut, FOREGROUND_RED );
+                break;
+        case 1: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE );
+                break;
+        case 2: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
+                break;
+        case 3: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED);
+                break;
+        case 4: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE);
+                break;
+        case 5: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_RED);
+                break;
+        default: SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+                break;
+    }
+}
 
-        void changeColor(int numberOfItems){
-            HANDLE hOut;
-            hOut = GetStdHandle( STD_OUTPUT_HANDLE );
-            if (numberOfItems == 0)
-                SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-            else
-            switch (numberOfItems%6)
-            {
-                case 0: SetConsoleTextAttribute( hOut, FOREGROUND_RED );
-                        break;
-                case 1: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE );
-                        break;
-                case 2: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
-                        break;
-                case 3: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED);
-                        break;
-                case 4: SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE);
-                        break;
-                case 5: SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_RED);
-                        break;
-                default: SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-                        break;
-            }
-        }
+void showResult(struct Item *items){
+    cout<<"Number  ";
+    cout<<"Coordinate x  ";
+    cout<<"Coordinate y  ";
+    cout<<"Rotation  ";
+    cout<<"Number of Box";
+    for(int i=0; i<QUANTITY; i++){
+        cout<<endl;
+        cout.width(5); cout<<items[i].number<<"|";
+        cout.width(10); cout<<items[i].cor.x;
+        cout.width(12); cout<<items[i].cor.y;
+        cout.width(12); cout<<items[i].cor.rotation;
+        cout.width(12); cout<<items[i].cor.boxNum;
+    }
+    cout<<endl;
+}
