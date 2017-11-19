@@ -29,6 +29,7 @@ struct Item{
 
 void showBox(int ***Boxes, int numOfBoxes);
 void showResult(struct Item *items);
+void showItems(struct Item *items);
 void bag(int ***Boxes, struct Item *items, int amountOfItems);
 void changeColor(int numberOfItems);
 
@@ -60,6 +61,7 @@ int main()
     //bag(Boxes, items, amountOfItems);
     showBox(Boxes, numOfBoxes);
     showResult(items);
+    showItems(items);
     return 0;
 }
 
@@ -386,11 +388,31 @@ void showResult(struct Item *items){
     cout<<"Number of Box";
     for(int i=0; i<QUANTITY; i++){
         cout<<endl;
-        cout.width(5); cout<<items[i].number<<"|";
+        changeColor(items[i].number);
+        cout.width(2); cout<<items[i].number;
         cout.width(10); cout<<items[i].cor.x;
-        cout.width(12); cout<<items[i].cor.y;
-        cout.width(12); cout<<items[i].cor.rotation;
+        cout.width(14); cout<<items[i].cor.y;
+        cout.width(14); cout<<items[i].cor.rotation;
         cout.width(12); cout<<items[i].cor.boxNum;
     }
-    cout<<endl;
+    cout<<endl<<endl;
+    changeColor(0);
+}
+
+void showItems(struct Item *items){
+    cout<<"Number  ";
+    cout<<"Length ";
+    cout<<"Width \n";
+    for(int i=1; i<=QUANTITY; i++){
+        changeColor(i);
+        cout.width(2); cout<<i;
+        for(int j=0; j<QUANTITY; j++){
+            if(items[j].number == i){
+                cout.width(10); cout<<items[j].length;
+                cout.width(6); cout<<items[j].width;
+            }
+        }
+        cout<<endl;
+    }
+    changeColor(0);
 }
