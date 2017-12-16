@@ -74,6 +74,7 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].width = temp2;
 		}
 	}
+	
 	*numOfBoxs = numOfBoxes;
 	return boxes;
 }

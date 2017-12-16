@@ -31,6 +31,9 @@ int main()
 		cout << "rotation: " << items[i].cor.rotation << endl;
 		cout << "boxNum: " << items[i].cor.boxNum << endl << endl;
 	}
+	
+	writeBoxes("Boxes.txt", Boxes, numOfBoxes);
+	
     //bag(Boxes, items, amountOfItems);
     //showBox(Boxes, numOfBoxes);
     //showResult(items);

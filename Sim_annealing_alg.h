@@ -4,7 +4,7 @@
 #include "Packing.h"
 #include <fstream>
 
-#define TSTART 1000
+#define TSTART 50000
 #define TMIN 10
 
 int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * ord);

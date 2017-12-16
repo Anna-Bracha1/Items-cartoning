@@ -4,15 +4,12 @@ using namespace std;
 
 void readItems(const char * FileName, Item * itms)
 {	
-	cout << "Error0\n";
 	ifstream ItemsFile;
 	ItemsFile.open(FileName);
 	
-	cout << "Error1\n";
 	int i=0;
 	do
 	{
-		cout << "Error2\n";
 		ItemsFile >> itms[i].number;
 		ItemsFile >> itms[i].length;
 		ItemsFile >> itms[i].width;
@@ -30,4 +27,25 @@ void readItems(const char * FileName, Item * itms)
 	} while(ItemsFile.good());
 	
 	ItemsFile.close();
+}
+
+void writeBoxes(const char * FileName, int *** boxes, int numOfBox)
+{
+	ofstream BoxesFile;
+	BoxesFile.open(FileName);
+	
+	for(int i=0; i<numOfBox; i++)
+	{
+		for(int k=0; k<BOXlength; k++)
+		{
+			for(int m=0; m<BOXwidth; m++)
+			{
+				BoxesFile << boxes[i][k][m] << ' ';
+			}
+			BoxesFile << endl;
+		}
+		BoxesFile << endl;
+	}
+	
+	BoxesFile.close();
 }

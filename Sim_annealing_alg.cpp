@@ -17,10 +17,11 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 	int number1, number2;
 	Item tempItem;
 	int tempNum;
+	Item oldItems[QUANTITY];
 	
 	ofstream Process;
 	Process.open("Process.txt"); // the file where the process of the algorithm will be recorded
-	Process << "B" << " " << "W" << " " << "T" << " " << "E" << endl;
+	Process << "B" << " " << "W" << " " << "T" << " " << "E" << " " << "N" << endl;
 
 	Boxes1 = createTableOfBoxes(1);
 	*numOfBoxs = 1;
@@ -32,7 +33,15 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 	{
 		number1 = rand() % QUANTITY;
 		number2 = rand() % QUANTITY;
-
+		
+		cout << "number1: " << number1 << endl;
+		cout << "number2: " << number2 << endl;
+		
+		for(int i=0; i<QUANTITY; i++)
+		{
+			oldItems[i] = itms[i];
+		}
+		
 		tempItem = itms[number1];
 		itms[number1] = itms[number2];
 		itms[number2] = tempItem;
@@ -46,6 +55,7 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 		Boxes2 = placeItems(Boxes2, itms, &numOfBoxs2);
 		EmptySpace2 = findEmptySpace(Boxes2[numOfBoxs2-1]);
 		valueOfObjFun2 = objectiveFunction(numOfBoxs2, EmptySpace2);
+		
 		if(valueOfObjFun2 <= valueOfObjFun1)
 		{
 			deleteTableOfBoxes(Boxes1, *numOfBoxs);
@@ -54,7 +64,7 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 			EmptySpace1 = EmptySpace2;
 			*numOfBoxs = numOfBoxs2;
 			cout << "Better" << endl;
-			Process << "1 0 0 " << EmptySpace1 << endl;
+			Process << "1 0 0 " << EmptySpace1 << "\t" << *numOfBoxs << endl;
 		}
 		else
 		{
@@ -69,7 +79,7 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 				EmptySpace1 = EmptySpace2;
 				*numOfBoxs = numOfBoxs2;
 				cout << "Worse" << endl;
-				Process << "0 1 0 " << EmptySpace1 << endl;
+				Process << "0 1 0 " << EmptySpace1 << "\t" << *numOfBoxs << endl;
 			}
 			else
 			{
@@ -82,8 +92,14 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 				tempNum = order[number1];
 				order[number1] = order[number2];
 				order[number2] = tempNum;
+				
+				for(int i=0; i<QUANTITY; i++)
+				{
+					itms[i] = oldItems[i];
+				}
+				
 				cout << "The same" << endl;
-				Process << "0 0 1 " << EmptySpace1 << endl;
+				Process << "0 0 1 " << EmptySpace1 << "\t" << *numOfBoxs << endl;
 			}
 		}
 	}
@@ -99,7 +115,7 @@ int objectiveFunction(int numOfBoxs, int EmptySp)
 
 double probabilityFunction(int value1, int value2, int temp)
 {
-	return exp((value1 - value2) / (temp*(1.0/20.0)));
+	return exp((value1 - value2) / (temp*(1.0/15.0)));
 }
 
 int lowerTemperature(int temp)
