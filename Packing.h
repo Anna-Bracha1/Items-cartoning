@@ -6,13 +6,9 @@
 #include <ctime>
 #include <math.h>
 
-using namespace std;
-
 #define BOXwidth 10
 #define BOXlength 10
-#define QUANTITY 9
-#define TSTART 100
-#define TMIN 10
+#define QUANTITY 27
 
 struct Coordinates{
 	int x;

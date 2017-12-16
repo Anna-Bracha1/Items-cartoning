@@ -1,5 +1,7 @@
 #include "Sim_annealing_alg.h"
 
+using namespace std;
+
 int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 {
 	for(int i=0; i < QUANTITY; i++)
@@ -15,6 +17,10 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 	int number1, number2;
 	Item tempItem;
 	int tempNum;
+	
+	ofstream Process;
+	Process.open("Process.txt"); // the file where the process of the algorithm will be recorded
+	Process << "B" << " " << "W" << " " << "T" << " " << "E" << endl;
 
 	Boxes1 = createTableOfBoxes(1);
 	*numOfBoxs = 1;
@@ -48,6 +54,7 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 			EmptySpace1 = EmptySpace2;
 			*numOfBoxs = numOfBoxs2;
 			cout << "Better" << endl;
+			Process << "1 0 0 " << EmptySpace1 << endl;
 		}
 		else
 		{
@@ -62,6 +69,7 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 				EmptySpace1 = EmptySpace2;
 				*numOfBoxs = numOfBoxs2;
 				cout << "Worse" << endl;
+				Process << "0 1 0 " << EmptySpace1 << endl;
 			}
 			else
 			{
@@ -75,10 +83,12 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 				order[number1] = order[number2];
 				order[number2] = tempNum;
 				cout << "The same" << endl;
+				Process << "0 0 1 " << EmptySpace1 << endl;
 			}
 		}
 	}
-
+	
+	Process.close();
 	return Boxes1;
 }
 
@@ -89,10 +99,10 @@ int objectiveFunction(int numOfBoxs, int EmptySp)
 
 double probabilityFunction(int value1, int value2, int temp)
 {
-	return exp((value1 - value2) / (temp*(1.0/10.0)));
+	return exp((value1 - value2) / (temp*(1.0/20.0)));
 }
 
 int lowerTemperature(int temp)
 {
-	return (0.9*temp);
+	return (0.99*temp);
 }

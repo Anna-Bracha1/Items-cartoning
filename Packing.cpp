@@ -1,5 +1,7 @@
 #include "Packing.h"
 
+using namespace std;
+
 int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 {
 	int numOfBoxes = 1;
