@@ -31,7 +31,7 @@ for i = 1:numOfBoxes
     stats = regionprops(Box(:,:,i), 'centroid', 'BoundingBox');
     for j = 1:length(stats)
         if(isnan(stats(j).Centroid(1)) == 0)
-            text(stats(j).Centroid(1), stats(j).Centroid(2),['\color{black}', num2str(j)]);
+            text((stats(j).Centroid(1)-0.25), stats(j).Centroid(2),['\color{black}', num2str(j)]);
             rectangle('Position', stats(j).BoundingBox);
         end
     end
