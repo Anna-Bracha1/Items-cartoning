@@ -8,7 +8,7 @@
 
 #define BOXwidth 10
 #define BOXlength 10
-#define QUANTITY 27
+#define QUANTITY 31
 
 struct Coordinates{
 	int x;

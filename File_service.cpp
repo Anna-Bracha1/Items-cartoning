@@ -16,13 +16,7 @@ void readItems(const char * FileName, Item * itms)
 		itms[i].cor.x = 0;
 		itms[i].cor.y = 0;
 		itms[i].cor.rotation = 0;
-		itms[i].cor.boxNum = 0;
-		cout << "Item " << itms[i].number << endl;
-		cout << "height: " << itms[i].length << ", width: " << itms[i].width << endl;
-		cout << "x: " << itms[i].cor.x << ", y: " << itms[i].cor.y << endl;
-		cout << "rotation: " << itms[i].cor.rotation << endl;
-		cout << "boxNum: " << itms[i].cor.boxNum << endl << endl;
-		
+		itms[i].cor.boxNum = 0;	
 		i++;
 	} while(ItemsFile.good());
 	

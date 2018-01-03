@@ -11,7 +11,8 @@ int main()
 					 {7, 4, 1, {0, 0, 0, 0}}, {8, 5, 3, {0, 0, 0, 0}}, {9, 7, 2, {0, 0, 0, 0}}};*/
 	
 	Item items[QUANTITY];
-	readItems("Items.txt", items);
+	
+	readItems("Items2.txt", items);
 	
 	int Order[QUANTITY] = {0};
 
@@ -33,6 +34,15 @@ int main()
 	}
 	
 	writeBoxes("Boxes.txt", Boxes, numOfBoxes);
+	
+	Item items2[QUANTITY];
+	int *** Boxes2 = createTableOfBoxes(1);
+	int EmptySpace2;
+	int numOfBoxes2;
+	
+	readItems("Items2_original.txt", items2);
+	Boxes2 = placeItems(Boxes2, items2, &numOfBoxes2);
+	writeBoxes("Boxes2.txt", Boxes2, numOfBoxes2);	
 	
     //bag(Boxes, items, amountOfItems);
     //showBox(Boxes, numOfBoxes);

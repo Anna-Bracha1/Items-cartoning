@@ -34,8 +34,8 @@ int *** simAnnealingAlgorithm(Item * itms, int * numOfBoxs, int * order)
 		number1 = rand() % QUANTITY;
 		number2 = rand() % QUANTITY;
 		
-		cout << "number1: " << number1 << endl;
-		cout << "number2: " << number2 << endl;
+		//cout << "number1: " << number1 << endl;
+		//cout << "number2: " << number2 << endl;
 		
 		for(int i=0; i<QUANTITY; i++)
 		{

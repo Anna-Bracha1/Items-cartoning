@@ -7,7 +7,12 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 	int numOfBoxes = 1;
 	int X = 0;
 	int Y = 0;
+	int X2 = 0;
+	int Y2 = 0;
 	int nextX = 0;
+	int check = 0;
+	int currentBox = 1;
+	
 	for(int i = 0; i<QUANTITY; i++)
 	{
 		if(itms[i].cor.rotation == 1)		//if rotation == 1, length swaps places with width
@@ -17,8 +22,76 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].length = itms[i].width;
 			itms[i].width = temp2;
 		}
-
-		if((itms[i].length <= (BOXlength-Y)) && (itms[i].width <= (BOXwidth-X)))
+		
+		for(currentBox=1; currentBox <= numOfBoxes; currentBox++)
+		{
+			X2 = 0;
+			Y2 = 0;
+			check = 0;
+			
+			for(int m = 0; m < BOXwidth; m++)
+			{
+				for(int k = 0; k < BOXlength; k++)
+				{
+					if(boxes[currentBox-1][k][m] == 0)
+					{	
+						check = 1;
+						if((itms[i].length <= (BOXlength-Y2)) && (itms[i].width <= (BOXwidth-X2)))
+						{
+							for(int k2 = Y2; k2 < (Y2+itms[i].length); k2++)
+							{
+								for(int m2 = X2; m2 < (X2+itms[i].width); m2++)
+								{
+									if(boxes[currentBox-1][k2][m2] != 0)
+									{
+										check = 2;
+										break;
+									}
+								}
+								if(check == 2)
+									break;
+							}
+							
+							if(check == 1)
+							{
+								itms[i].cor.x = X2;
+								itms[i].cor.y = Y2;
+								break;
+							}
+							else
+								check = 0;
+						}
+						else
+							check = 0;
+					}
+					else
+						Y2++;
+				}
+				
+				if(check == 1)
+					break;
+				else
+				{
+					Y2 = 0;
+					X2++;
+				}
+			}
+			
+			if(check == 1)
+				break;
+		}
+		
+		if(check != 1)
+		{
+			boxes = addBox(boxes, numOfBoxes);
+			numOfBoxes+=1;
+			itms[i].cor.x = 0;
+			itms[i].cor.y = 0;
+		}
+		itms[i].cor.boxNum = currentBox;
+		
+					
+		/*if((itms[i].length <= (BOXlength-Y)) && (itms[i].width <= (BOXwidth-X)))
 		{
 			itms[i].cor.x = X;
 			itms[i].cor.y = Y;
@@ -56,13 +129,15 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			Y = itms[i].length;
 			nextX = itms[i].width;
 		}
+			
 		itms[i].cor.boxNum = numOfBoxes;
+		currentBox = numOfBoxes;*/
 
 		for(int k = itms[i].cor.y; k!=(itms[i].cor.y+itms[i].length); k++)	//fill up pixels in the box table with number assigned to the recently placed item
 		{
 			for(int m = itms[i].cor.x; m<(itms[i].cor.x+itms[i].width); m++)
 			{
-				boxes[numOfBoxes-1][k][m]=itms[i].number;
+				boxes[currentBox-1][k][m]=itms[i].number;
 			}
 		}
 
