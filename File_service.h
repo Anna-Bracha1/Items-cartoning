@@ -5,6 +5,7 @@
 #include "Packing.h"
 
 void readItems(const char * FileName, Item * itms);
+void writeItems(const char * FileName, Item * itms, int numOfBox);
 void writeBoxes(const char * FileName, int *** boxes, int numOfBox);
 
 #endif

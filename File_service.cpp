@@ -23,6 +23,31 @@ void readItems(const char * FileName, Item * itms)
 	ItemsFile.close();
 }
 
+void writeItems(const char * FileName, Item * itms, int numOfBox)
+{
+	ofstream ItemsFile;
+	ItemsFile.open(FileName);
+	
+	for(int i=1; i <= numOfBox; i++)
+	{
+		ItemsFile << "Box" << i << endl;
+		for(int j=0; j < QUANTITY; j++)
+		{
+			if(itms[j].cor.boxNum == i)
+			{
+				ItemsFile << itms[j].number << ' ';
+				ItemsFile << '(' << itms[j].cor.x << ',';
+				ItemsFile << itms[j].cor.y << ") ";
+				ItemsFile << '(' << itms[j].width << ',';
+				ItemsFile << itms[j].length << ')' << endl;
+			}
+		}
+		ItemsFile << endl;
+	}
+	
+	ItemsFile.close();
+}
+
 void writeBoxes(const char * FileName, int *** boxes, int numOfBox)
 {
 	ofstream BoxesFile;

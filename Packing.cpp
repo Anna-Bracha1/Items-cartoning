@@ -23,7 +23,7 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].width = temp2;
 		}
 		
-		for(currentBox=1; currentBox <= numOfBoxes; currentBox++)
+		/*for(currentBox=1; currentBox <= numOfBoxes; currentBox++)
 		{
 			X2 = 0;
 			Y2 = 0;
@@ -88,10 +88,10 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].cor.x = 0;
 			itms[i].cor.y = 0;
 		}
-		itms[i].cor.boxNum = currentBox;
+		itms[i].cor.boxNum = currentBox;*/
 		
 					
-		/*if((itms[i].length <= (BOXlength-Y)) && (itms[i].width <= (BOXwidth-X)))
+		if((itms[i].length <= (BOXlength-Y)) && (itms[i].width <= (BOXwidth-X)))
 		{
 			itms[i].cor.x = X;
 			itms[i].cor.y = Y;
@@ -131,7 +131,7 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 		}
 			
 		itms[i].cor.boxNum = numOfBoxes;
-		currentBox = numOfBoxes;*/
+		currentBox = numOfBoxes;
 
 		for(int k = itms[i].cor.y; k!=(itms[i].cor.y+itms[i].length); k++)	//fill up pixels in the box table with number assigned to the recently placed item
 		{

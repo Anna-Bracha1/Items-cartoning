@@ -22,7 +22,6 @@ int main()
 
 	Boxes = simAnnealingAlgorithm(items, &numOfBoxes, Order);
 	EmptySpace = findEmptySpace(Boxes[numOfBoxes-1]);
-	cout << endl << "EmptySpace: " << EmptySpace << endl << endl;
 	
 	for(int i = 0; i < QUANTITY; i++)
 	{
@@ -33,7 +32,10 @@ int main()
 		cout << "boxNum: " << items[i].cor.boxNum << endl << endl;
 	}
 	
-	writeBoxes("Boxes.txt", Boxes, numOfBoxes);
+	cout << endl << "EmptySpace: " << EmptySpace << endl << endl;
+	
+	writeBoxes("Boxes_worse.txt", Boxes, numOfBoxes);
+	writeItems("Solution.txt", items, numOfBoxes);
 	
 	Item items2[QUANTITY];
 	int *** Boxes2 = createTableOfBoxes(1);
@@ -42,7 +44,7 @@ int main()
 	
 	readItems("Items2_original.txt", items2);
 	Boxes2 = placeItems(Boxes2, items2, &numOfBoxes2);
-	writeBoxes("Boxes2.txt", Boxes2, numOfBoxes2);	
+	writeBoxes("Boxes_original.txt", Boxes2, numOfBoxes2);	
 	
     //bag(Boxes, items, amountOfItems);
     //showBox(Boxes, numOfBoxes);

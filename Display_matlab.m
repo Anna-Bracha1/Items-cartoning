@@ -4,7 +4,7 @@ close all;
 %original packing
 numOfBoxes = 4;
 
-filename = 'Boxes2.txt';
+filename = 'Boxes_original.txt';
 fileID = fopen(filename','r');
 
 formatSpec = '%d %d %d %d %d %d %d %d %d %d';
@@ -25,7 +25,7 @@ mymap = colormap(hsv);
 figure(1);
 colormap(mymap);
 for i = 1:numOfBoxes
-    subplot(2, 4, i);
+    subplot(2, 2, i);
     image(Box(:,:,i), 'CDataMapping', 'scaled');
     title(['Box ' num2str(i)]);
     
@@ -39,9 +39,9 @@ for i = 1:numOfBoxes
 end
 
 %packed by algorithm
-numOfBoxes = 5;
+numOfBoxes = 6;
 
-filename = 'Boxes.txt';
+filename = 'Boxes_worse.txt';
 fileID = fopen(filename','r');
 
 formatSpec = '%d %d %d %d %d %d %d %d %d %d';
@@ -62,7 +62,7 @@ mymap(1,:) = [0 0 0];   %make first color black
 figure(2);
 colormap(mymap);
 for i = 1:numOfBoxes
-    subplot(2, 4, i);
+    subplot(2, 3, i);
     image(Box(:,:,i), 'CDataMapping', 'scaled');
     title(['Box ' num2str(i)]);
     
