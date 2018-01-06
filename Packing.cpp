@@ -13,6 +13,7 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 	int check = 0;
 	int currentBox = 1;
 	
+	
 	for(int i = 0; i<QUANTITY; i++)
 	{
 		if(itms[i].cor.rotation == 1)		//if rotation == 1, length swaps places with width
@@ -23,7 +24,10 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].width = temp2;
 		}
 		
-		/*for(currentBox=1; currentBox <= numOfBoxes; currentBox++)
+		//II METODA (LEPSZA) - POCZATEK
+		
+		/*
+		for(currentBox=1; currentBox <= numOfBoxes; currentBox++)
 		{
 			X2 = 0;
 			Y2 = 0;
@@ -88,9 +92,13 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			itms[i].cor.x = 0;
 			itms[i].cor.y = 0;
 		}
-		itms[i].cor.boxNum = currentBox;*/
+		itms[i].cor.boxNum = currentBox;
+		*/
 		
-					
+		//II METODA (LEPSZA) - KONIEC
+		
+		//I METODA (GORSZA) - POCZATEK
+		
 		if((itms[i].length <= (BOXlength-Y)) && (itms[i].width <= (BOXwidth-X)))
 		{
 			itms[i].cor.x = X;
@@ -132,6 +140,8 @@ int *** placeItems(int *** boxes, Item * itms, int * numOfBoxs)
 			
 		itms[i].cor.boxNum = numOfBoxes;
 		currentBox = numOfBoxes;
+			
+		//I METODA (GORSZA)	- KONIEC
 
 		for(int k = itms[i].cor.y; k!=(itms[i].cor.y+itms[i].length); k++)	//fill up pixels in the box table with number assigned to the recently placed item
 		{
